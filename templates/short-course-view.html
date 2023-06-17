@@ -1,0 +1,254 @@
+
+{% load static %}
+{% include 'header.html' %}
+
+<!--app-content open-->
+<div class="main-content app-content mt-0">
+    <div class="side-app">
+
+        <!-- CONTAINER -->
+        <div class="main-container container-fluid">
+
+            <!-- PAGE-HEADER -->
+            <div class="page-header">
+                <h1 class="page-title">Short Term Course View</h1>
+                <a href="{% url 'short_course_create' %}" class="btn btn-danger btn-pill">Add <i class="fa fa-plus"></i></a>
+
+            </div>
+            <!-- PAGE-HEADER END -->
+            
+           
+
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                    <form action="{% url 'search' %}" method="GET">
+                            <div class="card-header" >
+                                
+                                    <h3 class="card-title">Short Term Course Table</h3> 
+                                    &nbsp; &nbsp; &nbsp;
+                                    
+                                    <input type="text" class="form-control" style="width: 60%;" placeholder="search" name="keyword">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                
+                            </div>
+                    </form>
+                        <div class="card-body">
+
+                            <div class="table-responsive">
+                                <div class="table-responsive">
+                                    <table class="table border text-nowrap text-md-nowrap table-hover mb-0">
+                                        
+                                        <thead>
+                                            <tr>
+                                                <th>Sl No</th>
+                                                <th>Image</th>
+                                                <th>Title</th>
+                                                <th>Subtitle</th>
+                                                <th>Description</th>
+                                                <th>Details</th>
+
+
+
+                                                <th>Satus</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- TABLE DETAILS -->
+                                            {% if courses %}
+                                            {% for course in courses %}
+                                           
+                                            <tr>
+                                                <td>{{forloop.counter}}</td>
+                                                <td>
+                                                    <img class="d-block img-fluid br-5 img-td"
+                                                        src="{{course.course_image.url}}" alt="">
+                                                </td>
+                                                <td>{{course.title}} </td>
+                                                <td>
+                                                     {{course.subtitle}}
+                                                </td>
+
+                                                <td><a class="btn btn-primary" data-bs-toggle="modal"
+                                                        data-bs-target="#description">
+                                                        <i class="side-menu__icon fe fe-eye text-white"></i>
+                                                    </a>
+                                                </td>
+                                                <td><a class="btn btn-dark" data-bs-toggle="modal"
+                                                        data-bs-target="#crsdetail">
+                                                        <i class="side-menu__icon fe fe-list text-white"></i>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href=""><span class="btn btn-success">Active</span></a>
+                                                    <a href=""> <span class="btn btn-danger">Inactive</span></a>
+                                                </td>
+                                                <td>
+                                                    <a class=" btn btn-info" href="{% url 'edit_course' course.pk %}">
+                                                        <i class="side-menu__icon fe fe-edit"></i>
+                                                    </a>
+
+                                                    <a class="btn btn-danger"  href="{% url 'course_delete' course.pk %}">
+                                                        <i class="side-menu__icon fe fe-trash text-white"></i>
+                                                    </a> 
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% else %}
+                                            <div>
+                                                <h2>No result found.</h2>
+                                            </div>
+                                            {% endif %}
+                                            <!-- TABLE DETAILS END -->
+                                        </tbody>
+                                        
+                                    </table>
+
+                                </div>
+                                
+                                <div class="card-body">
+                                   
+                                    {% if courses.has_other_pages  %}
+
+                                        <ul class="pagination">
+                                            {% if courses.has_previous %}
+                                            <li class="page-item page-prev">
+                                                <a class="page-link" href="?page={{courses.previous_page_number}}" tabindex="-1">Prev</a>
+                                            </li>
+                                            {% else %}
+                                            <a class="page-link" href="#" tabindex="-1">Prev</a>
+                                            {% endif %}
+                                            {% for i in courses.paginator.page_range  %}
+                                            {% if courses.number == i %}
+                                            <li class="page-item active"><a class="page-link" href="">{{i}}</a></li>
+                                            {% else %}
+                                            
+                                            <li class="page-item"><a class="page-link" href="?page{{i}}">{{i}}</a></li>
+                                            {% endif %}
+                                            {% endfor %}
+                                            {% if courses.has_next %}
+                                            <li class="page-item page-next">
+                                                <a class="page-link" href="?page={{courses.next_page_number}}">Next</a>
+                                            </li>
+                                            {% else %}
+                                            <a class="page-link disabled" href="">Next</a>
+                                            {% endif %}
+                                        </ul>
+                                    {% endif %}
+                                    <!-- pagination-wrapper -->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <!-- CONTAINER END -->
+        </div>
+    </div>
+    <!--app-content close-->
+
+
+
+    <div class="modal  fade" id="modaldemo5" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-md modal-dialog-centered text-center" role="document">
+            <div class="modal-content ">
+
+                <div class="modal-body">
+                    <button aria-label="Close" class="btn-close position-absolute" data-bs-dismiss="modal"><span
+                            aria-hidden="true">&times;</span></button>
+                    <i class="icon icon-close fs-70 text-danger lh-1 my-5 d-inline-block"></i>
+                    <h4 class="text-danger">Are You Sure Do You Want To Delete ?</h4>
+                    <p class="mg-b-20 mg-x-20">Item Will be Deleted Permanently</p>
+                   
+                </div>
+                <div class="modal-footer justify-content-center">
+        
+                    <a  class="btn btn-success" href="#">Yes</a>
+                    
+                    <button aria-label="Close" class="btn btn-danger pd-x-25" data-bs-dismiss="modal">Cancel</button>
+
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+    
+
+    <!-- MESSAGE MODAL -->
+    <div class="modal  fade" id="description" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-md modal-dialog-centered text-center" role="document">
+            <div class="modal-content ">
+
+                <div class="modal-body">
+                    <button aria-label="Close" class="btn-close position-absolute" data-bs-dismiss="modal"><span
+                            aria-hidden="true">&times;</span></button>
+
+                    <h4 class="text-primary">Description</h4>
+                    <p class="mg-b-20 mg-x-20"></p>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Course Detail  MODAL -->
+    <div class="modal  fade" id="crsdetail" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered text-center" role="document">
+            <div class="modal-content ">
+
+                <div class="modal-body">
+                    <button aria-label="Close" class="btn-close position-absolute" data-bs-dismiss="modal"><span
+                            aria-hidden="true">&times;</span></button>
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Lorem ipsum</td>
+                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua.</td>
+                                
+                            </tr>
+                            <tr>
+                            <td>Lorem ipsum</td>
+                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua.</td>
+                                
+                            </tr>
+                            <tr>
+                            <td>Lorem ipsum</td>
+                                <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua.</td>
+                             </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer justify-content-center">
+               
+                    <button aria-label="Close" class="btn btn-danger pd-x-25" data-bs-dismiss="modal">Cancel</button>
+
+                </div>
+            </div>
+        </div>
+        
+    </div>
+  
+
+
+  {% include 'footer.html' %}
