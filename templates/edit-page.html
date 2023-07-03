@@ -20,7 +20,8 @@
 
 
 
-            <form method="post" class="">
+            <form method="POST" action="{% url 'edit_course' course.pk %} " enctype="multipart/form-data" >
+                {% csrf_token %}
                 <div class="row">
                     <!-- IMAGE UPLOADER -->
                     <div class="col-lg-4 col-md-6">
@@ -31,8 +32,8 @@
                             <div class=" card-body">
                                 <div class="row mb-5">
                                     <div class="col-lg-12 col-sm-12 mb-4 mb-lg-0">
-                                        <img src="{{course_image.url}}"  alt="">
-                                        <input type="file" class="dropify" data-bs-height="180" />
+                                        <img  src="{{course.course_image.url}}" alt="">
+                                        {{form1.course_image}}
                                     
                                     </div>
                                 </div>
@@ -43,6 +44,7 @@
 
                     <!-- DETAILS START -->
                     <div class="col-lg-8">
+                
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Short Term Course Information</h3>
@@ -54,14 +56,18 @@
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <label class="form-label"> Title</label>
-                                            <input type="text" class="form-control" value={{title}} placeholder=" Title">
+                                            {{course.title}}
+                                            {{form1.title}}
+                                            {% comment %} <input type="text" class="form-control" name="title" value={{title}} placeholder=" Title"> {% endcomment %}
                                         </div>
                                     </div>
                                     <!--  Subtitle -->
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">Subtitle</label>
-                                            <input type="text" class="form-control" value={{subtitle}} placeholder="Subtitle">
+                                            {{course.subtitle}}
+                                            {{form1.subtitle}}
+                                            {% comment %} <input type="text" class="form-control" name="subtitle" value={{subtitle}} placeholder="Subtitle"> {% endcomment %}
                                         </div>
                                     </div>
 
@@ -69,7 +75,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="form-label">Description</label>
-                        <div id="summernote">                  
+                                            <div id="summernote">                  
 
                                             </div>
                                         </div>
@@ -80,7 +86,8 @@
 
 
             <div class="multi-field-wrapper ">
-            <div class="multi-fields">
+
+             <div class="multi-fields">
                 <div class="multi-field">
                 <div class="row">
                 <div class="col-lg-6" style="padding-right:0px">
@@ -103,8 +110,8 @@
                     class="remove-field float-right btn btn-danger btn-sm icon-btn ml-2 "><i
                     class="mdi mdi-delete"></i></button>
                 </div>
-            </div>
-            <div>
+            </div> 
+             <div>
                 <button type="button" type="button"
                 class=" add-field btn btn-info btn-sm icon-btn ml-2 mb-2">
                 Add New<i class="mdi mdi-plus"></i>
@@ -112,12 +119,12 @@
             </div>
             </div>
 
-            </div>
+            </div> 
 
                                             
 
                                                 <!-- status -->
-                                                <div class="col-md-6">
+                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="form-label">Status</label>
                                                         <select class="form-control select2" data-placeholder="Status">
@@ -125,12 +132,12 @@
                                                             <option value="Disable">Disable</option>
                                                         </select>
                                                     </div>
-                                                </div>
+                                                </div> 
                                                 <!-- SUBMIT START -->
                                                 <div class="col-lg-12 ">
                                                     <div class="mt-5">
                                                         <a href="" class="btn btn-default btn-pill">Cancel</a>
-                                                        <a href="" class="btn btn-warning btn-pill">Submit</a>
+                                                        <button class="btn btn-warning btn-pill" type="submit">Submit</button>
                                                     </div>
                                                 </div>
                                                 <!-- SUBMIT END -->

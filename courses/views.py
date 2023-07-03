@@ -33,18 +33,33 @@ def short_course_create(request):
         return render(request,'short-course-create.html',{'form':form})
 
 
-def edit_course(request,pk):
+def edit_course(request,pk):    
      course = get_object_or_404(Course,pk=pk)
-     title = course.title
-     subtitle = course.subtitle
-     course_image = course.course_image
-     context ={
-          'title':title,
-          'subtitle':subtitle,
-          'course_image':course_image,
-     }
-     return render(request,'edit-page.html',context)
-        
+     form = CourseForm(course)
+     if request.method == 'POST':
+          form_new = CourseForm(request.POST,request.FILES)        
+          if form_new.is_valid():
+               form_new.save()
+               course.delete()
+               return redirect('short_term_courses')
+     else:
+          form1 = CourseForm()
+
+     return render(request,'edit-page.html',{'form':form,'course':course,'form1':form1})
+
+
+
+def update_record(request):
+     if request.method == 'POST':
+          form = CourseForm(request.POST,request.FILES)
+          if form.is_valid():
+
+               form.save()
+               return redirect('short_term_courses')
+
+     return render(request,'edit-page.html')    
+
+
     
 def course_delete(request,pk):
      course = get_object_or_404(Course,pk=pk)
@@ -62,3 +77,5 @@ def search(request):
         'courses':courses,
     }
      return render(request,'short-course-view.html',context)
+
+

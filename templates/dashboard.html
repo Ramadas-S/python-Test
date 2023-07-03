@@ -2,7 +2,9 @@
 
 {% include 'header.html' %}
  <!--app-content open-->
+                <h1>This is Dashboard</h1>
             <div class="main-content app-content mt-0">
+
                 <div class="side-app">
 
                     <!-- CONTAINER -->
@@ -10,11 +12,15 @@
 
                         <!-- PAGE-HEADER -->
                         <div class="page-header">
-                            <h1 class="page-title" href="{% url 'login' %}">Dashboard</h1>
+                            <h1 class="page-title">Dashboard</h1>
                             <div>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page" >Dashboard</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                                    <header class="card-header">
+                                        <strong class="d-inline-block mr-3">Logged in as:</strong>
+                                        <span>uuuuuu</span>
+                                    </header>
                                 </ol>
                             </div>
                         </div>
